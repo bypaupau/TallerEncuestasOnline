@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
@@ -23,9 +27,18 @@ public class Listado extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_listado);
 
         lvHistorial = findViewById(R.id.lvHistorial);
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            // se le suma el padding de 16dp del xml para que no quede pegado a la pantalla
+            int extra = (int) (16 * getResources().getDisplayMetrics().density);
+            v.setPadding(systemBars.left + extra, systemBars.top + extra, systemBars.right + extra, systemBars.bottom + extra);
+            return insets;
+        });
 
         cargarHistorial();
 
@@ -73,7 +86,7 @@ public class Listado extends AppCompatActivity {
                 detalle = "";
                 contador = 0;
             }
-            detalle = detalle + textoPregunta + ": " + respuesta + "\n";
+            detalle = detalle + textoPregunta + ": " + respuesta + "\n\n";
             contador++;
         }
         // se agrega la ultima encuesta que quedo armada
