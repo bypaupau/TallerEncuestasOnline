@@ -1,5 +1,6 @@
 package com.example.myapplication3;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,7 +16,8 @@ import java.util.ArrayList;
 public class Listado extends AppCompatActivity {
 
     private ListView lvHistorial;
-    private ArrayList<String> listaResumen = new ArrayList<>();
+    private ArrayList<String> listaResumen = new ArrayList<>(); // lo que se ve en la lista (fecha + cantidad)
+    private ArrayList<String> listaDetalle = new ArrayList<>(); // pregunta con respuesta completa de cada encuesta
     SurveyDbHelper dbHelper = new SurveyDbHelper(this);
 
     @Override
@@ -29,6 +31,15 @@ public class Listado extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaResumen);
         lvHistorial.setAdapter(adapter);
+
+        // al tocar una encuesta se ve el detalle completo en un dialogo
+        lvHistorial.setOnItemClickListener((parent, view, position, id) -> {
+            new AlertDialog.Builder(this)
+                    .setTitle(listaResumen.get(position))
+                    .setMessage(listaDetalle.get(position))
+                    .setPositiveButton("Cerrar", null)
+                    .show();
+        });
     }
 
     // trae todas las respuestas y las junta por fecha, cada fecha es una encuesta
@@ -43,7 +54,8 @@ public class Listado extends AppCompatActivity {
         );
 
         String fechaActual = "";
-        String resumen = "";
+        String detalle = "";
+        int contador = 0;
 
         while (cursor.moveToNext()) {
             String fecha = cursor.getString(cursor.getColumnIndexOrThrow(SurveyContract.RespuestasEntry.COLUMN_FECHA));
@@ -54,16 +66,20 @@ public class Listado extends AppCompatActivity {
             if (!fecha.equals(fechaActual)) {
                 // si ya habia una encuesta armandose, se guarda antes de empezar la nueva
                 if (!fechaActual.equals("")) {
-                    listaResumen.add(resumen);
+                    listaResumen.add(fechaActual + "  -  " + contador + " respuesta(s)");
+                    listaDetalle.add(detalle);
                 }
                 fechaActual = fecha;
-                resumen = fecha + "\n";
+                detalle = "";
+                contador = 0;
             }
-            resumen = resumen + textoPregunta + ": " + respuesta + "\n";
+            detalle = detalle + textoPregunta + ": " + respuesta + "\n";
+            contador++;
         }
         // se agrega la ultima encuesta que quedo armada
-        if (!resumen.equals("")) {
-            listaResumen.add(resumen);
+        if (!fechaActual.equals("")) {
+            listaResumen.add(fechaActual + "  -  " + contador + " respuesta(s)");
+            listaDetalle.add(detalle);
         }
 
         cursor.close();

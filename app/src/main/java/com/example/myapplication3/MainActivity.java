@@ -39,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            // se le suma el padding de 16dp del xml para que no quede pegado a la pantalla
+            int extra = (int) (16 * getResources().getDisplayMetrics().density);
+            v.setPadding(systemBars.left + extra, systemBars.top + extra, systemBars.right + extra, systemBars.bottom + extra);
             return insets;
         });
 
@@ -64,12 +66,18 @@ public class MainActivity extends AppCompatActivity {
             TextView txtPregunta = new TextView(this);
             txtPregunta.setText(texto);
             txtPregunta.setTextSize(16);
-            txtPregunta.setPadding(0, 24, 0, 4);
+            txtPregunta.setPadding(0, 16, 0, 0);
 
             EditText txtRespuesta = new EditText(this);
+            txtRespuesta.setHint("Escribe tu respuesta");
+
+            // margen para separar cada pregunta de la siguiente
+            LinearLayout.LayoutParams parametros = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            parametros.setMargins(0, 0, 0, 12);
 
             contenedorPreguntas.addView(txtPregunta);
-            contenedorPreguntas.addView(txtRespuesta);
+            contenedorPreguntas.addView(txtRespuesta, parametros);
 
             listaRespuestas.add(txtRespuesta);
             listaIdPreguntas.add(idPregunta);

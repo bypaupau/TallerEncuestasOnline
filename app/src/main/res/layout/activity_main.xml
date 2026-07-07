@@ -9,11 +9,13 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="376dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:text="Encuesta de satisfacción"
+        android:textAlignment="center"
         android:textSize="20sp"
-        android:layout_marginBottom="12dp" />
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -8,11 +8,13 @@
     tools:context=".Listado">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:text="Historial de encuestas"
+        android:textAlignment="center"
         android:textSize="20sp"
-        android:layout_marginBottom="12dp" />
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/lvHistorial"
