@@ -13,17 +13,13 @@ La particularidad del ejercicio es que las preguntas **no están quemadas en el 
 
 ## Capturas
 
-**Llenando la encuesta**
+<p float="left">
+  <img src="capturas/llenando-encuesta.png" width="250" alt="Llenando encuesta" />
+  <img src="capturas/historial-general.png" width="250" alt="Historial general" />
+  <img src="capturas/historial-detallado.png" width="250" alt="Historial detallado" />
+</p>
 
-![Llenando encuesta](capturas/llenando-encuesta.png)
-
-**Historial general**
-
-![Historial general](capturas/historial-general.png)
-
-**Detalle de una encuesta**
-
-![Historial detallado](capturas/historial-detallado.png)
+De izquierda a derecha: llenando la encuesta, historial general, detalle de una encuesta.
 
 ## Estructura del proyecto
 
